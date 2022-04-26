@@ -1,0 +1,11 @@
+{% extends 'convert/base.html' %}
+
+{% block body%}
+    <h1 style="margin-top: 0">Notion to Focalboard</h1>
+    <p>Convert Notion export to Focalboard archive using this form.</p>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" name="submit" value="Upload">
+    </form>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'convert/base.html' %}
+
+{% block body %}
+    Convert Status: <b>{{ task.get_state_display }}</b>
+    {% if task.state == task.State.FAILED %}
+        <p>
+            ERROR
+        </p>
+    {% elif task.state == task.State.COMPLETED %}
+        <p>
+            <a href="{% url 'convert:download-archive' task.id %}">Download the result</a>
+            <br>
+            File will be deleted after 24 hours.
+        </p>
+    {% else %}
+        <p>Please wait...</p>
+        <script>
+            setInterval(function() { window.location.reload(); }, 5000);
+        </script>
+    {% endif %}
+    <div><a href="{% url 'convert:convert' %}">Convert another file</a></div>
+{% endblock %}
