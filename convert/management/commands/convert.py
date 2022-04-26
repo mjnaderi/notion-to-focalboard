@@ -40,6 +40,9 @@ class Command(BaseCommand):
             )
             if res.returncode != 0:
                 task.state = ConvertTask.State.FAILED
+                task.error_msg = (
+                    f"Return Code: {res.returncode}\n{res.stderr}\n{res.stdout}"[:400]
+                )
                 task.save()
                 self.stdout.write(f"Failed to convert {task.id}: {res.stdout}")
             else:

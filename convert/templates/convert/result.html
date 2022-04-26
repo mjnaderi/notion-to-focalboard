@@ -3,9 +3,7 @@
 {% block body %}
     Convert Status: <b>{{ task.get_state_display }}</b>
     {% if task.state == task.State.FAILED %}
-        <p>
-            ERROR
-        </p>
+        <pre>{{ task.error_msg }}</pre>
     {% elif task.state == task.State.COMPLETED %}
         <p>
             <a href="{% url 'convert:download-archive' task.id %}">Download the result</a>

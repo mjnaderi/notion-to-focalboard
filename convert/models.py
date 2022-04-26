@@ -12,6 +12,8 @@ class ConvertTask(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    error_msg = models.TextField(max_length=1000, blank=True)
+
     class State(models.TextChoices):
         PENDING = "pending", "Pending"
         RUNNING = "running", "Running"
