@@ -14,7 +14,7 @@ from convert.models import ConvertTask
 class Command(BaseCommand):
     help = "Handle convert tasks"
 
-    SLEEP = 10  # seconds
+    SLEEP = 2  # seconds
 
     def add_arguments(self, parser):
         parser.add_argument("focalboard_repo", nargs=1, type=str)
@@ -61,12 +61,15 @@ class Command(BaseCommand):
                 self.stdout.write(f"Deleting old task files")
                 tasks = list(
                     ConvertTask.objects.filter(
-                        crated_at__lt=timezone.now() - timedelta(days=1)
+                        created_at__lt=timezone.now() - timedelta(days=1)
                     )
                 )
                 for task in tasks:
-                    task.notion_export.delete()
-                    os.remove(task.get_result_path())
+                    try:
+                        task.notion_export.delete()
+                        os.remove(task.get_result_path())
+                    except FileNotFoundError:
+                        pass
                 self.stdout.write(f"Deleted files for {len(tasks)} old tasks")
 
             for task in ConvertTask.objects.filter(state=ConvertTask.State.PENDING):
