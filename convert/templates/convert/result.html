@@ -13,7 +13,18 @@
     {% else %}
         <p>Please wait...</p>
         <script>
-            setInterval(function() { window.location.reload(); }, 5000);
+            (function() {
+                const DELAY = 5000;
+                let ttl = 20;
+                function reload() {
+                    ttl--;
+                    window.location.reload();
+                    if (ttl > 0) {
+                        setTimeout(reload, DELAY);
+                    }
+                }
+                setTimeout(reload, DELAY);
+            })();
         </script>
     {% endif %}
     <div><a href="{% url 'convert:convert' %}">Convert another file</a></div>
